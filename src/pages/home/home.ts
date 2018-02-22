@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage } from 'ionic-angular';
+import { NavController, IonicPage, NavParams, LoadingController } from 'ionic-angular';
 import { ToastService } from '../../services/toast/toast.service';
 import { DummyService } from './../../services/dummy/dummy-service';
 import { Dummy } from './../../models/dummy/dummy.model';
 import { Observable } from 'rxjs/Observable';
+import { User } from './../../models/user/user.model';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @IonicPage()
 @Component({
@@ -11,6 +13,8 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'home.html'
 })
 export class HomePage {
+
+  public loggedUser: User;
 
   Dummies$: Observable<Dummy[]>;
 
@@ -36,7 +40,12 @@ export class HomePage {
 
   constructor(public navCtrl: NavController,
   private toastCtrl: ToastService,
-  private DummiesL: DummyService) { 
+  private DummiesL: DummyService,
+  public loadingCtrl: LoadingController,
+  public navParams: NavParams,
+  private afAuth: AngularFireAuth,) { 
+    this.loggedUser=navParams.get("userpassed");
+    //this.toastCtrl.show("Welcome "+this.loggedUser.email);
     this.Dummies$ = this.DummiesL 
     .getDummyList() //DB List
     .snapshotChanges() //Key and Value
@@ -48,9 +57,22 @@ export class HomePage {
       });
   }
 
+
+  async logout()
+  {
+    this.afAuth.auth.signOut().then(()=>{
+      this.navCtrl.setRoot('LoginPage');
+      const loading = this.loadingCtrl.create({
+        duration: 500
+      });
+      loading.present().then(()=>{
+        this.toastCtrl.show('Logged Out');
+      });
+    });
+  }
+
   ionViewDidLoad() {
     console.log('Hello Home-Page');
-    this.toastCtrl.show("Welcome");
   }
 
   imageTapped(post) {

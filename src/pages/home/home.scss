@@ -1,4 +1,6 @@
 page-home {
+  $transparent-white: rgba(255, 255, 255, .6);
+
   ion-content {
     background: linear-gradient(0deg, #eeeef1 0%, white 80%, white 100%);
   }
@@ -79,5 +81,15 @@ page-home {
   // Posts feed
   #posts {
     text-align: justify;
+  }
+
+  .footer {
+    text-align: center;
+    background: rgba(255, 255, 255, .06);
+    min-height: 47px;
+  }
+  .footer-md::before {
+    border-top: 1px solid $transparent-white;
+    background-image: none;
   }
 }

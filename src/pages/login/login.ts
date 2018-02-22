@@ -1,9 +1,12 @@
+import { User } from './../../models/user/user.model';
 // import { FormBuilder, FormControl, Validator } from '@angular/forms';
 import {  NavController, MenuController, ViewController } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { AlertController, App, LoadingController, IonicPage } from 'ionic-angular';
+import { ToastService } from '../../services/toast/toast.service';
 import { DummyService } from './../../services/dummy/dummy-service';
 import { Dummy } from './../../models/dummy/dummy.model';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @IonicPage()
 @Component({
@@ -16,11 +19,14 @@ export class LoginPage {
     name: '',
   }
 
+  user = {} as User;
+
 
   public loginForm: any;
   public backgroundImage = 'assets/img/background/background-5.jpg';
 
   constructor(
+    private afAuth: AngularFireAuth,
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
@@ -28,35 +34,51 @@ export class LoginPage {
     private menu: MenuController,
     private viewCtrl: ViewController,
     private dummies: DummyService,
+    private toastCtrl: ToastService,
   ) { }
 
-  login(dummy: Dummy) {
+  async login(user: User) {
     const loading = this.loadingCtrl.create({
       duration: 500
     });
 
-    loading.onDidDismiss(() => {
-      // const alert = this.alertCtrl.create({
-      //   title: 'Logged in!',
-      //   subTitle: 'Thanks for logging in.',
-      //   buttons: ['Dismiss']
-      // });
-      // alert.present();
-      this.navCtrl
-      .push('HomePage')
-      .then(() => {
-        // first we find the index of the current view controller:
-        const index = this.viewCtrl.index;
-        // then we remove it from the navigation stack
-        this.navCtrl.remove(index);
-        console.log(index);
-      });
-    });
+    // loading.onDidDismiss(() => {
+    //   // const alert = this.alertCtrl.create({
+    //   //   title: 'Logged in!',
+    //   //   subTitle: 'Thanks for logging in.',
+    //   //   buttons: ['Dismiss']
+    //   // });
+    //   // alert.present();
+    //   this.navCtrl
+    //   .push('HomePage')
+    //   .then(() => {
+    //     // first we find the index of the current view controller:
+    //     const index = this.viewCtrl.index;
+    //     // then we remove it from the navigation stack
+    //     this.navCtrl.remove(index);
+    //     console.log(index);
+    //   });
+    // });
 
-    this.dummies.addDummy(dummy);
-    console.log(dummy.name+" added!");
+    // this.dummies.addDummy(dummy);
+    // console.log(dummy.name+" added!");
 
     loading.present();
+
+
+
+    try {
+      const result = await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
+      if (result) {
+        this.navCtrl.setRoot('HomePage', {
+          userpassed: user,
+        });
+      }  
+    }
+    catch (e) {
+      console.log(e.message);
+      this.toastCtrl.show(e.message);
+    }
 
   }
   login1() {
@@ -86,12 +108,37 @@ export class LoginPage {
   }
 
 
-  goToSignup() {
-    // this.navCtrl.push(SignupPage);
+  async goToSignup(user: User) {
+    console.log(user.email);
+    try {
+      const result = await this.afAuth.auth.createUserWithEmailAndPassword(
+        user.email,
+        user.password
+      );
+      if (result) {
+        this.navCtrl.setRoot('HomePage');
+      }
+    } catch (e) {
+      console.log(e.message);
+      this.toastCtrl.show(e.message);
+    }
   }
+
+
 
   ionViewDidEnter() {
     this.menu.swipeEnable(false);
+    if(this.afAuth.auth.currentUser)
+    {
+      console.log(this.afAuth.auth.currentUser.email);
+      const loading = this.loadingCtrl.create({
+        duration: 500
+      });
+      loading.present().then(()=>{
+        this.toastCtrl.show('Already Logged In');
+      });
+      this.navCtrl.setRoot('HomePage');
+    }
   }
   ionViewWillLeave() {
     this.menu.swipeEnable(true);
