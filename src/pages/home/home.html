@@ -1,18 +1,49 @@
-<ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
-
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
-</ion-content>
+<ion-content padding class="transparent-header">
+    <ion-header>
+      <!-- <ion-navbar>
+      </ion-navbar> -->
+    </ion-header>
+    <div id="profile-bg" [ngStyle]="{'background-image': 'url(' + user.coverImage +')'}"></div>
+    <div id="content">
+      <div id="profile-info" padding>
+        <img id="profile-image" [src]="user.profileImage">
+        <h3 id="profile-name">{{user.name}}</h3>
+        <p class="profile-description">{{user.description}}</p>
+      </div>
+      <hr/>
+      <ion-row class="profile-numbers">
+        <!-- <ion-col col-4>
+          <p>Followers</p>
+          <span>{{user.followers}}</span>
+        </ion-col> -->
+        <ion-col col-6>
+          <p>Upcoming Activities</p>
+          <span>{{user.upcomingAct}}</span>
+        </ion-col>
+        <ion-col col-6>
+          <p>Pending Activities</p>
+          <span>{{user.pendingAct}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-list>
+        <ion-list-header>Activities</ion-list-header>
+        <ion-item *ngFor="let dummy of Dummies$ | async" detail-push navPush="ViewActivityPage" [navParams]="{dummy: dummy}">{{dummy.name}}</ion-item>
+        </ion-list>
+      <div id="posts">
+        <ion-card *ngFor="let post of posts">
+          <ion-item>
+            <ion-avatar item-start>
+              <img [src]="user.profileImage">
+            </ion-avatar>
+            <h2 class="sticky">{{user.name}}</h2>
+            <p>{{post.date}}</p>
+          </ion-item>
+          <img [src]="post.postImageUrl" (click)="imageTapped(post)">
+          <ion-card-content>
+            <p>{{post.text}}</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </ion-content>
+  

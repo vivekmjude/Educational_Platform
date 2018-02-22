@@ -1,10 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 @Component({
   templateUrl: 'app.html'
@@ -12,18 +10,48 @@ import { ListPage } from '../pages/list/list';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: string = 'LoginPage';
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform,
+     public statusBar: StatusBar, 
+     public splashScreen: SplashScreen,
+     public toastCtrl: ToastController
+    ) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'Home', component: 'HomePage' },
     ];
+
+
+  //   platform.ready().then(() => {
+  //     //back button handle
+  //     //Registration of push in Android and Windows Phone
+  //     var lastTimeBackPress = 0;
+  //     var timePeriodToExit  = 2000;
+
+  //     platform.registerBackButtonAction(() => {
+  //         // get current active page
+  //         let view = this.nav.getActive();
+  //         if (view.component.name == "HomePage") {
+  //             //Double check to exit app
+  //             if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
+  //                 this.platform.exitApp(); //Exit from app
+  //             } else {
+  //                 console.log("TOASTING");
+  //                 lastTimeBackPress = new Date().getTime();
+  //             }
+  //         } else {
+  //             // go to previous page
+  //             this.nav.pop({});
+  //         }
+  //     });
+  // });    
+
+
 
   }
 
