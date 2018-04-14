@@ -1,10 +1,11 @@
 import { User } from './../../models/user/user.model';
 // import { FormBuilder, FormControl, Validator } from '@angular/forms';
-import {  NavController, MenuController, ViewController } from 'ionic-angular';
+import {  NavController, MenuController } from 'ionic-angular';
+//import { ViewController} from 'ionic-angular';
 import { Component } from '@angular/core';
 import { AlertController, App, LoadingController, IonicPage } from 'ionic-angular';
 import { ToastService } from '../../services/toast/toast.service';
-import { DummyService } from './../../services/dummy/dummy-service';
+// import { DummyService } from './../../services/dummy/dummy-service';
 import { Dummy } from './../../models/dummy/dummy.model';
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -32,8 +33,8 @@ export class LoginPage {
     public alertCtrl: AlertController,
     public app: App,
     private menu: MenuController,
-    private viewCtrl: ViewController,
-    private dummies: DummyService,
+   // private viewCtrl: ViewController,
+   // private dummies: DummyService,
     private toastCtrl: ToastService,
   ) { }
 
@@ -97,9 +98,9 @@ export class LoginPage {
       .push('HomePage')
       .then(() => {
         // first we find the index of the current view controller:
-        const index = this.viewCtrl.index;
+        //const index = this.viewCtrl.index;
         // then we remove it from the navigation stack
-        this.navCtrl.remove(index);
+        //this.navCtrl.remove(index); (uncomment this if going back to login on pressing back button)
       });
     });
 
@@ -108,20 +109,8 @@ export class LoginPage {
   }
 
 
-  async goToSignup(user: User) {
-    console.log(user.email);
-    try {
-      const result = await this.afAuth.auth.createUserWithEmailAndPassword(
-        user.email,
-        user.password
-      );
-      if (result) {
-        this.navCtrl.setRoot('HomePage');
-      }
-    } catch (e) {
-      console.log(e.message);
-      this.toastCtrl.show(e.message);
-    }
+  async goToSignup() {
+    this.navCtrl.push('RegisterPage');
   }
 
 

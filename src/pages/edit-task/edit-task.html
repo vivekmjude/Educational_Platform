@@ -1,0 +1,45 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>{{task?.description}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-label floating>Description</ion-label>
+    <ion-input [(ngModel)]="task.description"></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label floating>Start</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [(ngModel)]="task.start"></ion-datetime>
+  </ion-item>
+  
+
+  <ion-item>
+      <ion-label floating>End</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [(ngModel)]="task.end" type="number"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Time Required (in minutes)</ion-label>
+    <ion-input [(ngModel)]="task.timeRequired" type="number" ></ion-input>
+</ion-item>
+<br>
+<ion-item>
+  <ion-label>Fixed Task</ion-label>
+  <ion-checkbox [(ngModel)]="task.fixed"></ion-checkbox>
+</ion-item>
+<br>
+<ion-item>
+  <ion-label>Academic</ion-label>
+    <ion-checkbox [(ngModel)]="task.academic"></ion-checkbox>
+</ion-item>
+
+<button ion-button block clear (click)="saveTask(task)">Save</button>
+<button ion-button block clear color="danger" (click)="removeTask(task)">Delete</button>
+
+</ion-content>

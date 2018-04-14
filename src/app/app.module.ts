@@ -1,3 +1,5 @@
+import { TaskListService } from './../services/task/task.service';
+import { ProfileService } from './../services/profile/profile.service';
 import { DummyService } from './../services/dummy/dummy-service';
 import { ToastService } from './../services/toast/toast.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,6 +12,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { CalendarModule } from 'ionic3-calendar-en';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    CalendarModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -31,7 +35,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ToastService,
-    DummyService
+    DummyService,
+    ProfileService,
+    TaskListService,
   ]
 })
 export class AppModule {}

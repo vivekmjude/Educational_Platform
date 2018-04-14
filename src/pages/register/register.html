@@ -1,0 +1,33 @@
+<ion-content padding class="transparent-header">
+  <ion-header>
+    <ion-navbar>
+    </ion-navbar>
+  </ion-header>
+  <img class="logo" src="assets/imgs/EPLogo.png" />
+  <div padding>
+    <ion-item>
+      <ion-input [(ngModel)]="profile.username" type="text" placeholder="Username"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-input [(ngModel)]="profile.firstName" type="text" placeholder="First Name"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-input [(ngModel)]="profile.lastName" type="text" placeholder="Last Name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="user.email" type="text" placeholder="Email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="user.password" type="password" placeholder="Password"></ion-input>
+    </ion-item>
+    <button ion-button block outline (click)="register(user)" color="light" class="login-button">Register</button>
+  </div>
+  <div class="strike">
+    <span>&copy; EduPlat 2018</span>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar class="footer">
+      <span><strong>Changing learning</strong>.</span>
+  </ion-toolbar>
+</ion-footer>

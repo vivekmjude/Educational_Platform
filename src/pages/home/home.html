@@ -9,6 +9,7 @@
         <img id="profile-image" [src]="user.profileImage">
         <h3 id="profile-name">{{user.name}}</h3>
         <p class="profile-description">{{user.description}}</p>
+
       </div>
       <hr/>
       <ion-row class="profile-numbers">
@@ -25,10 +26,21 @@
           <span>{{user.pendingAct}}</span>
         </ion-col>
       </ion-row>
-      <ion-list>
+      <!-- <ion-list>
         <ion-list-header>Activities</ion-list-header>
         <ion-item *ngFor="let dummy of Dummies$ | async" detail-push navPush="ViewActivityPage" [navParams]="{dummy: dummy}">{{dummy.name}}</ion-item>
-        </ion-list>
+        </ion-list> -->
+        <!-- <ion-item>
+          <ion-label floating>Activity</ion-label>
+          <ion-input [(ngModel)]="dummy.name" type="text" ></ion-input>
+        </ion-item> -->
+        <!-- <button ion-button (click)="addAct(dummy)">Add Activity</button> -->
+
+        <p>
+            {{(userProfileData)?.firstName}}
+          </p>
+
+          
       <div id="posts">
         <ion-card *ngFor="let post of posts">
           <ion-item>

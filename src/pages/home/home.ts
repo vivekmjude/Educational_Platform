@@ -6,19 +6,31 @@ import { Dummy } from './../../models/dummy/dummy.model';
 import { Observable } from 'rxjs/Observable';
 import { User } from './../../models/user/user.model';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { Profile } from './../../models/profile/profile.model';
+import { ProfileService } from '../../services/profile/profile.service';
+
+let homePageAccess=0;
 
 @IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
+
 export class HomePage {
 
   public loggedUser: User;
 
+  dummy: Dummy = {
+    name: '',
+  }
+
+  userProfileData: Profile;
+
   Dummies$: Observable<Dummy[]>;
 
-  following = false;
   user = {
     name: 'Alexander Jones',
     profileImage: 'assets/imgs/PPP.jpeg',
@@ -41,9 +53,12 @@ export class HomePage {
   constructor(public navCtrl: NavController,
   private toastCtrl: ToastService,
   private DummiesL: DummyService,
+  private ProfServ: ProfileService,
   public loadingCtrl: LoadingController,
   public navParams: NavParams,
-  private afAuth: AngularFireAuth,) { 
+  private afAuth: AngularFireAuth,
+  private dummies: DummyService,
+  private afDatabase: AngularFireDatabase) { 
     this.loggedUser=navParams.get("userpassed");
     //this.toastCtrl.show("Welcome "+this.loggedUser.email);
     this.Dummies$ = this.DummiesL 
@@ -55,11 +70,22 @@ export class HomePage {
           key: c.payload.key, ...c.payload.val()
         }));
       });
+
+
+  }
+
+  async addAct(dummy: Dummy)
+  {
+    this.dummies.addDummy(dummy).then(ref => {
+      this.navCtrl.setRoot('HomePage',{ key: ref.key})
+    });
+    console.log(dummy.name+" added!");
   }
 
 
   async logout()
   {
+    homePageAccess=0;
     this.afAuth.auth.signOut().then(()=>{
       this.navCtrl.setRoot('LoginPage');
       const loading = this.loadingCtrl.create({
@@ -71,7 +97,38 @@ export class HomePage {
     });
   }
 
-  ionViewDidLoad() {
+  ionViewWillLoad() {
+    this.afAuth.authState.take(1).subscribe(data => {
+      if(data && data.email && data.uid) {
+
+
+        // this.userProfileData = this.afDatabase.object(`profile/${data.uid}`).valueChanges();
+
+
+      // this.userProfileData = this.afDatabase.object(`profile/${data.uid}`).valueChanges();
+      // console.log("HHH "+this.userProfileData);
+
+
+  //     const personRef: afDatabase.Reference = firebase.database().ref(`profile/${data.uid}`);
+  //    personRef.on('value', personSnapshot => {
+  //   this.userProfileData = personSnapshot.val();
+  // });
+        if(homePageAccess==0)
+        {
+          this.toastCtrl.show('Welcome '+ data.email);
+          console.log(homePageAccess);
+          homePageAccess+=1;
+         }
+        console.log(homePageAccess);
+        homePageAccess+=1;
+      }
+      else 
+      {
+        this.toastCtrl.show('Could not find authentication details. Please Login.');
+        this.navCtrl.setRoot('LoginPage');
+      }
+    }
+  );
     console.log('Hello Home-Page');
   }
 

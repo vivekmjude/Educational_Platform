@@ -1,0 +1,144 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+      <ion-segment-button value="all">
+        All
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        Favorites
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-buttons end>
+      <button navPush='AddTaskPage' ion-button>
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="updateSchedule()"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- <ion-list #scheduleList [hidden]="shownSessions === 0"> -->
+  <ion-list>
+    
+
+    <!-- <ion-item-group *ngFor="let group of groups" [hidden]="group.hide"> -->
+    <ion-item-group>
+      
+
+      <ion-item-divider sticky>
+        <ion-label>
+          TIME
+        </ion-label>
+      </ion-item-divider>
+
+      <!-- <ion-item-sliding *ngFor="let session of group.sessions" #slidingItem [attr.track]="session.tracks[0] | lowercase" [hidden]="session.hide"> -->
+
+        <!-- <button ion-item (click)="goToSessionDetail(session)">
+          <h3>{{session.name}}</h3>
+          <p>
+            {{session.timeStart}} &mdash;
+            {{session.timeEnd}}:
+            {{session.location}}
+          </p>
+        </button> -->
+        <ion-item-sliding>
+        <button ion-item (click)="goToSessionDetail(session)">
+          <h3>Cryptography Assignment</h3>
+          <p>
+            10:00 &mdash;
+            12:00
+            (Due: 15-04-2018 09:00:000)
+          </p>
+        </button>
+
+        <button ion-item (click)="goToSessionDetail(session)">
+            <h3>Project Presentation PPT</h3>
+            <p>
+              14:00
+            </p>
+        </button>
+
+        <button ion-item (click)="goToSessionDetail(session)">
+              <h3>Pick up groceries</h3>
+              <p>
+                16:00
+              </p>
+         </button>
+
+        <button ion-item (click)="goToSessionDetail(session)">
+                <h3>Graph Theory Online Test</h3>
+                <p>
+                  17:00
+                  (Due: 14-04-2018 09:00:000)
+                </p>
+        </button>
+
+        <button ion-item (click)="goToSessionDetail(session)">
+            <h3>Sudani - MoT Carnival Cinemas</h3>
+            <p>
+              18:30
+            </p>
+        </button>
+
+        <button ion-item (click)="goToSessionDetail(session)">
+            <h3>Book tickets for WCMT Gig</h3>
+            <p>
+              20:00
+            </p>
+        </button>
+
+        <button ion-item (click)="goToSessionDetail(session)">
+            <h3>Graph Theory Online Test</h3>
+            <p>
+              21:00
+              (Due: 14-04-2018 09:00:000)
+            </p>
+    </button>
+
+        <ion-item-options>
+          <button ion-button color="favorite" (click)="addFavorite(slidingItem, session)" *ngIf="segment === 'all'">
+            Favorite
+          </button>
+          <button ion-button color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" *ngIf="segment === 'favorites'">
+            Remove
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
+
+  </ion-list>
+  <ion-list>
+    <ion-list-header>Tasks</ion-list-header>
+    <ion-item *ngFor="let task of taskList$ | async" detail-push navPush="EditTaskPage" [navParams]="{task: task}"><h3>{{task.description}}</h3>
+      <p>
+        {{task.end}}
+      </p></ion-item>
+  </ion-list>
+  <!-- <ion-list-header [hidden]="shownSessions > 0">
+      No Sessions Found
+  </ion-list-header> -->
+
+
+  <!-- <ion-calendar #calendar >
+  </ion-calendar>
+
+  <button ion-button (click)="calendar.today()">Jump to Today</button> -->
+  
+</ion-content>
