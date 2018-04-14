@@ -128,7 +128,7 @@
     <ion-list-header>Tasks</ion-list-header>
     <ion-item *ngFor="let task of taskList$ | async" detail-push navPush="EditTaskPage" [navParams]="{task: task}"><h3>{{task.description}}</h3>
       <p>
-        {{task.end}}
+        {{task.end | date:"dd MMM yy hh:mm a" }}
       </p></ion-item>
   </ion-list>
   <!-- <ion-list-header [hidden]="shownSessions > 0">

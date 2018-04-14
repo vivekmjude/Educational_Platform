@@ -27,6 +27,8 @@ export class AddTaskPage {
     timeRequired: undefined,
     fixed: false,
     academic: false,
+    done: false,
+    doneTime: null,
   }
   
 

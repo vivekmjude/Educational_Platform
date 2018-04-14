@@ -6,4 +6,6 @@ export interface Task {
   timeRequired: number;
   fixed: boolean;
   academic: boolean;
+  done: boolean;
+  doneTime: boolean;
 }

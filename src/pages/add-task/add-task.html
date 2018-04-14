@@ -24,19 +24,19 @@
       <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [(ngModel)]="task.end" type="number"></ion-datetime>
   </ion-item>
 
-  <ion-item>
+  <ion-item no-lines>
     <ion-label floating>Time Required (in minutes)</ion-label>
     <ion-input [(ngModel)]="task.timeRequired" type="number" ></ion-input>
 </ion-item>
 <br>
-<ion-item>
+<ion-item no-lines>
   <ion-label>Fixed Task</ion-label>
-  <ion-checkbox [(ngModel)]="task.fixed" (ionChange)="update()"></ion-checkbox>
+  <ion-checkbox item-right [(ngModel)]="task.fixed" (ionChange)="update()"></ion-checkbox>
 </ion-item>
 <br>
-<ion-item>
+<ion-item no-lines>
   <ion-label>Academic</ion-label>
-    <ion-checkbox [(ngModel)]="task.academic" (ionChange)="update()"></ion-checkbox>
+    <ion-checkbox item-right [(ngModel)]="task.academic" (ionChange)="update()"></ion-checkbox>
 </ion-item>
 
   <button ion-button block clear (click)="addTask(task)">Add</button>
