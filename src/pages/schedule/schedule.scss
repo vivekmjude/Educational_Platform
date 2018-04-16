@@ -1,6 +1,6 @@
 $categories: (
- ionic: color($colors, primary),
- angular: #AC282B,
+ true: color($colors, primary),
+ false: #AC282B,
  communication: #8E8D93,
  tooling: #FE4C52,
  services: #FD8B2D,
@@ -17,8 +17,8 @@ $categories: (
 
 page-schedule {
   @each $track, $value in auxiliary-categories() {
-   ion-item ion-label {
-     border-left: 2px solid $value;
+   ion-item[track=#{$track}] ion-label {
+     border-left: 5px solid $value;
      padding-left: 10px;
      font-size: 10px
    }

@@ -13,6 +13,10 @@ import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { CalendarModule } from 'ionic3-calendar-en';
+import { AngularFirestoreModule } from "angularfire2/firestore";
+import { Firebase } from "@ionic-native/firebase";
+import { FcmProvider } from '../providers/fcm/fcm';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,9 @@ import { CalendarModule } from 'ionic3-calendar-en';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFirestoreModule,
     CalendarModule,
+    IonicStorageModule.forRoot(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -35,9 +41,11 @@ import { CalendarModule } from 'ionic3-calendar-en';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ToastService,
+    Firebase,
     DummyService,
     ProfileService,
     TaskListService,
+    FcmProvider,
   ]
 })
 export class AppModule {}

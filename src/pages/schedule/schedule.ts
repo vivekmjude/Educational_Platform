@@ -5,7 +5,7 @@ import { Component, ViewChild } from '@angular/core';
 
 import { AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher, IonicPage } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-
+import { Storage } from "@ionic/storage";
 /*
   To learn how to use third party libs in an
   Ionic app check out our docs here: http://ionicframework.com/docs/v2/resources/third-party-libs/
@@ -52,6 +52,7 @@ export class SchedulePage {
     public navCtrl: NavController,
     public toastCtrl: ToastService,
     public taskService: TaskListService,
+    public storage: Storage
     // public confData: ConferenceData,
     // public user: UserData,
   ) {
@@ -69,6 +70,10 @@ export class SchedulePage {
   ionViewDidLoad() {
     this.app.setTitle('Schedule');
     this.updateSchedule();
+    this.storage.get('fullName').then((val)=>
+      {
+        console.log(val+"CHECKERSSSSSSS")
+      });
   }
 
   updateSchedule() {

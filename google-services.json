@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "162843053674",
+    "firebase_url": "https://educational-platform.firebaseio.com",
+    "project_id": "educational-platform",
+    "storage_bucket": "educational-platform.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162843053674:android:91a189c66384f8f8",
+        "android_client_info": {
+          "package_name": "educational.platform"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162843053674-e2irdn1j91kojj37cqal6n93i7sl19gc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh3O_KGwDgnrO1KONHSBHWEpoYVXN9gmI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

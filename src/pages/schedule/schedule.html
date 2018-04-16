@@ -122,14 +122,35 @@
         </ion-item-options>
       </ion-item-sliding>
     </ion-item-group>
-
   </ion-list>
   <ion-list>
     <ion-list-header>Tasks</ion-list-header>
-    <ion-item *ngFor="let task of taskList$ | async" detail-push navPush="EditTaskPage" [navParams]="{task: task}"><h3>{{task.description}}</h3>
+    <ng-container *ngFor="let task of taskList$ | async">
+
+    <!-- <ion-item *ngIf="task.done==true" detail-push navPush="EditTaskPage" [navParams]="{task: task}"> IF STATEMENT EXAMPLE-->
+      
+      <ion-item *ngIf="task.doneTime==''" detail-push navPush="EditTaskPage" [navParams]="{task: task}" #slidingItem [attr.track]="task.academic">
+      <h3>{{task.description}}</h3>
       <p>
-        {{task.end | date:"dd MMM yy hh:mm a" }}
-      </p></ion-item>
+        {{task.end | date:"dd MMM 'yy hh:mm a" }}
+      </p>
+</ion-item>
+    </ng-container>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>Done Tasks</ion-list-header>
+    <ng-container *ngFor="let task of taskList$ | async">
+
+    <!-- <ion-item *ngIf="task.done==true" detail-push navPush="EditTaskPage" [navParams]="{task: task}"> IF STATEMENT EXAMPLE-->
+      
+      <ion-item *ngIf="task.done==true" detail-push navPush="EditTaskPage" [navParams]="{task: task}">
+      <h3>{{task.description}}</h3>
+      <p>
+        {{task.end | date:"dd MMM 'yy hh:mm a" }}
+      </p>
+    </ion-item>
+    </ng-container>
   </ion-list>
   <!-- <ion-list-header [hidden]="shownSessions > 0">
       No Sessions Found

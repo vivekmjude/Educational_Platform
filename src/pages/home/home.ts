@@ -6,11 +6,14 @@ import { Dummy } from './../../models/dummy/dummy.model';
 import { Observable } from 'rxjs/Observable';
 import { User } from './../../models/user/user.model';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angularfire2/database';
 import { Profile } from './../../models/profile/profile.model';
 import { ProfileService } from '../../services/profile/profile.service';
+import { Storage } from '@ionic/storage';
+
 
 let homePageAccess=0;
+let loggedUserEmail: string;
 
 @IonicPage()
 @Component({
@@ -21,14 +24,13 @@ let homePageAccess=0;
 
 export class HomePage {
 
-  public loggedUser: User;
+  
 
   dummy: Dummy = {
     name: '',
   }
-
-  userProfileData: Profile;
-
+  public regUsers$: Observable<any[]>;
+  public userProfileData: Profile;
   Dummies$: Observable<Dummy[]>;
 
   user = {
@@ -50,6 +52,7 @@ export class HomePage {
     } 
   ];
 
+
   constructor(public navCtrl: NavController,
   private toastCtrl: ToastService,
   private DummiesL: DummyService,
@@ -58,8 +61,14 @@ export class HomePage {
   public navParams: NavParams,
   private afAuth: AngularFireAuth,
   private dummies: DummyService,
-  private afDatabase: AngularFireDatabase) { 
-    this.loggedUser=navParams.get("userpassed");
+  private afDatabase: AngularFireDatabase,
+  public storage: Storage
+) {
+
+   //this.loggedUser=navParams.get("userpassed");
+
+
+
     //this.toastCtrl.show("Welcome "+this.loggedUser.email);
     this.Dummies$ = this.DummiesL 
     .getDummyList() //DB List
@@ -72,7 +81,15 @@ export class HomePage {
       });
 
 
-  }
+    }
+
+
+
+
+
+
+
+
 
   async addAct(dummy: Dummy)
   {
@@ -97,9 +114,53 @@ export class HomePage {
     });
   }
 
+ ionViewDidLoad(){
+  this.afAuth.authState.take(1).subscribe(data => {
+    if(data && data.email && data.uid) {
+      loggedUserEmail=data.email;
+      const listRef = this.afDatabase.list('/profile', ref => ref.orderByChild('email').equalTo(loggedUserEmail));
+      this.storage.set(`email`,loggedUserEmail); 
+      this.storage.get('email').then((val)=>
+      {
+        console.log(val+"CHECK")
+      }),
+      this.regUsers$ = listRef.valueChanges(); 
+      this.regUsers$.subscribe(fooBar => {
+        fooBar.forEach(fooBarItem => {
+          this.storage.set(`username`,fooBarItem.username);          
+          this.storage.set(`firstName`,fooBarItem.firstName);
+          this.storage.set(`lastName`,fooBarItem.LastName);
+          this.storage.set(`fullName`,fooBarItem.firstName+" "+fooBarItem.lastName);
+        })
+      })
+      this.storage.get('fullName').then((val)=>
+      {
+        console.log(val+"CHECKING 1331")
+      });
+    }
+   });
+  }
+   ionViewWillUnload(){
+     console.log("UNLOAD");
+     this.storage.get('email').then((val)=>
+      {
+        console.log(val+"CHECKUNLOAD")
+      });
+   }
+
+
+
+
+
   ionViewWillLoad() {
+
+
+      
     this.afAuth.authState.take(1).subscribe(data => {
       if(data && data.email && data.uid) {
+
+
+
 
 
         // this.userProfileData = this.afDatabase.object(`profile/${data.uid}`).valueChanges();
@@ -135,6 +196,5 @@ export class HomePage {
   imageTapped(post) {
     this.toastCtrl.show('Post image clicked');
   }
-
 
 }

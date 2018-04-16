@@ -40,6 +40,14 @@
             {{(userProfileData)?.firstName}}
           </p>
 
+
+          <ul>
+            <li *ngFor="let item of regUsers$ | async">
+               {{ item | json }}
+            </li>
+          </ul>
+
+
           
       <div id="posts">
         <ion-card *ngFor="let post of posts">

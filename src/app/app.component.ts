@@ -2,7 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { FcmProvider } from './../providers/fcm/fcm';
+import { tap } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'app.html'
@@ -11,16 +12,16 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: string = 'LoginPage';
-
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform,
      public statusBar: StatusBar, 
      public splashScreen: SplashScreen,
-     public toastCtrl: ToastController
+     public toastCtrl: ToastController,
+     public fcm: FcmProvider,
     ) {
-    this.initializeApp();
 
+    this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: 'HomePage' },
@@ -52,9 +53,27 @@ export class MyApp {
   //     });
   // });    
 
+  platform.ready().then(() => {
+
+    // Get a FCM token
+    fcm.getToken()
+    console.log("TOKEN GOT")
+    // Listen to incoming messages
+    fcm.listenToNotifications().pipe(
+      tap(msg => {
+        // show a toast
+        const toast = toastCtrl.create({
+          message: msg.body,
+          duration: 3000
+        });
+        toast.present();
+      })
+    )
+    .subscribe()
+  });
+}
 
 
-  }
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -70,4 +89,6 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+
+
 }
