@@ -35,6 +35,8 @@ export class SchedulePage {
   @ViewChild('scheduleList', { read: List }) scheduleList: List;
 
   taskList$: Observable<Task[]>;
+  sortedTaskList$: Observable<Task[]>;
+  
 
   dayIndex = 0;
   queryText = '';
@@ -65,7 +67,25 @@ export class SchedulePage {
           key: c.payload.key, ...c.payload.val()
         }));
       });
+
+     this.sortedTaskList$= this.taskList$.map(items=>items.sort(this.sortSchedule))
+
+
+
   }
+
+  sortSchedule(a,b) {
+    if (a.start < b.start)
+      return -1;
+    if (a.start > b.start)
+      return 1;
+    if (a.start == b.start && a.tAcademic==true && b.tAcademic==false)
+      return -1;
+    if (a.start == b.start && b.tAcademic==true && a.tAcademic==false)
+      return 1;
+    return 0;
+  }
+  
 
   ionViewDidLoad() {
     this.app.setTitle('Schedule');

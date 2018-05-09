@@ -89,4 +89,8 @@
     <engine name="android" spec="7.0.0" />
     <engine name="browser" spec="~5.0.3" />
     <plugin name="cordova-plugin-firebase" spec="^1.0.0" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^2.0.2" />
+    <engine name="browser" spec="5.0.3" />
+    <allow-navigation href="http://192.168.225.110:8101" />
+    <allow-navigation href="http://192.168.225.110:8100" />
 </widget>

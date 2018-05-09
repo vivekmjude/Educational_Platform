@@ -17,6 +17,7 @@ import { AngularFirestoreModule } from "angularfire2/firestore";
 import { Firebase } from "@ionic-native/firebase";
 import { FcmProvider } from '../providers/fcm/fcm';
 import { IonicStorageModule } from '@ionic/storage';
+import { InAppBrowser } from "@ionic-native/in-app-browser";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { IonicStorageModule } from '@ionic/storage';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ToastService,
     Firebase,
+    InAppBrowser,
     DummyService,
     ProfileService,
     TaskListService,

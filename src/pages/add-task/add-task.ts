@@ -56,6 +56,11 @@ export class AddTaskPage {
     {
       task.studentName=val;
     });
+    // let k=new Date(task.end)
+    // task.end=new Date(k.toISOString());
+    // console.log(task.start+"HHH");
+    // console.log(task.end+"HHH");
+    // console.log(task.end.toISOString+"HHH");
     this.taskService.addTask(task).then(ref => {
       this.toast.show(`${task.description} added!`);
       this.navCtrl.setRoot('SchedulePage',{ key: ref.key})

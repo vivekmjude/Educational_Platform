@@ -1,6 +1,6 @@
 $categories: (
- true: color($colors, primary),
- false: #AC282B,
+ true: #6600CC,
+ false: rgb(247, 0, 4),
  communication: #8E8D93,
  tooling: #FE4C52,
  services: #FD8B2D,
@@ -8,7 +8,6 @@ $categories: (
  workshop: #69BB7B,
  food: #3BC7C4,
  documentation: #B16BE3,
- navigation: #6600CC,
 );
 
 @function auxiliary-categories() {

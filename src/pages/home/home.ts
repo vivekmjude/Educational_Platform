@@ -10,6 +10,7 @@ import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angular
 import { Profile } from './../../models/profile/profile.model';
 import { ProfileService } from '../../services/profile/profile.service';
 import { Storage } from '@ionic/storage';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
 
 
 let homePageAccess=0;
@@ -24,6 +25,24 @@ let loggedUserEmail: string;
 
 export class HomePage {
 
+  options : InAppBrowserOptions = {
+    location : 'yes',//Or 'no' 
+    hidden : 'no', //Or  'yes'
+    clearcache : 'yes',
+    clearsessioncache : 'yes',
+    zoom : 'yes',//Android only ,shows browser zoom controls 
+    hardwareback : 'yes',
+    mediaPlaybackRequiresUserAction : 'no',
+    shouldPauseOnSuspend : 'no', //Android only 
+    closebuttoncaption : 'Close', //iOS only
+    disallowoverscroll : 'no', //iOS only 
+    toolbar : 'yes', //iOS only 
+    enableViewportScale : 'no', //iOS only 
+    allowInlineMediaPlayback : 'no',//iOS only 
+    presentationstyle : 'pagesheet',//iOS only 
+    fullscreen : 'yes',//Windows only    
+};
+
   
 
   dummy: Dummy = {
@@ -34,7 +53,7 @@ export class HomePage {
   Dummies$: Observable<Dummy[]>;
 
   user = {
-    name: 'Alexander Jones',
+    name: 'Quote for the Day',
     profileImage: 'assets/imgs/PPP.jpeg',
     coverImage: 'assets/imgs/PP3.jpg',
     description: 'Education is not the preparation for life; education is life itself.',
@@ -48,7 +67,7 @@ export class HomePage {
       postImageUrl: 'assets/imgs/EduBG.png',
       text: `“I often warn people: "Somewhere along the way, someone is going to tell you, 'There is no "I" in team.' What you should tell them is, 'Maybe not. But there is an "I" in independence, individuality and integrity.”  
       ―George Carlin`,
-      date: 'February 5, 2018',
+      // date: 'February 5, 2018',
     } 
   ];
 
@@ -62,7 +81,8 @@ export class HomePage {
   private afAuth: AngularFireAuth,
   private dummies: DummyService,
   private afDatabase: AngularFireDatabase,
-  public storage: Storage
+  public storage: Storage,
+  private theInAppBrowser: InAppBrowser
 ) {
 
    //this.loggedUser=navParams.get("userpassed");
@@ -113,6 +133,21 @@ export class HomePage {
       });
     });
   }
+
+  public openWithSystemBrowser(url : string){
+    let target = "_system";
+    this.theInAppBrowser.create(url,target,this.options);
+}
+public openWithInAppBrowser(url : string){
+    let target = "_blank";
+    this.theInAppBrowser.create(url,target,this.options);
+}
+public openWithCordovaBrowser(url : string){
+    let target = "_self";
+    this.theInAppBrowser.create(url,target,this.options);
+}
+
+
 
  ionViewDidLoad(){
   this.afAuth.authState.take(1).subscribe(data => {

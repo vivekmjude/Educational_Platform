@@ -38,7 +38,7 @@ export class EditTaskPage {
     });
   }
 
-
+  
   ionViewDidLoad() {
     this.storage.get('fullName').then((val)=>
     {
@@ -71,6 +71,8 @@ export class EditTaskPage {
   }
 
   saveTask(task: Task) {
+    console.log("CHECKING IN MAY "+task.doneTime);
+    if(task.doneTime!='' && task.done==false) task.doneTime='';
     this.taskService.editTask(task)
     .then(() => {
       this.toast.show(`${task.description} saved!`);
